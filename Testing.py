@@ -35,37 +35,17 @@ if __name__ == "__main__":
 
     accum_cer = []
     i=0
-    image_path = "image/created/ROI.png"
+    image_path = "image/test/a01-000x-s00-01.png"
     image = cv2.imread(image_path)
+    image2 = cv2.resize(image, (image.shape[1] * 2, image.shape[0] * 2))
+    cv2.imshow("Image", image2)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
     label = input("Entrer label corespondent:")
     prediction_text = model.predict(image)
 
     cer = get_cer(prediction_text, label)
     print(f"Image: {image_path}, Label: {label}, Prediction: {prediction_text}, CER: {cer}")
-    image = cv2.resize(image, (image.shape[1] * 2, image.shape[0] * 2))
-    cv2.imshow("Image", image)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-    '''for image_path, label in tqdm(df):
-        #image = cv2.imread(image_path)
-        image_path="drawn_image.png"
-        image= cv2.imread(image_path)
-        pred=input("Entrer la prediction corespandente")
-        prediction_text = model.predict(image)
-
-        cer = get_cer(pred, label)
-        print(f"Image: {image_path}, Label: {label}, Prediction: {prediction_text}, CER: {cer}")
-
-        accum_cer.append(cer)
-
-        # resize by 2x
-        image = cv2.resize(image, (image.shape[1] * 2, image.shape[0] * 2))
-        cv2.imshow("Image", image)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
-        i+=1'''
-
-    print(f"Average CER: {np.average(accum_cer)}")
 def distortion_free_resize(image, img_size):
     w, h = img_size
     image = tf.image.resize(image, size=(h, w), preserve_aspect_ratio=True)
